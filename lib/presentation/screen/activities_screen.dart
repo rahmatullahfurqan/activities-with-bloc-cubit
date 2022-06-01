@@ -103,6 +103,7 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
                         children: [
                           Text(
                             justDate,
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
                             height: 10,
@@ -117,9 +118,9 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
                     Padding(
                       padding: const EdgeInsets.only(right: 15, top: 5),
                       child: Text(
-                        activities.when.substring(
-                            activities.when.length - 5, activities.when.length),
-                      ),
+                          activities.when.substring(activities.when.length - 5,
+                              activities.when.length),
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     Container(
                       padding: const EdgeInsets.all(10.0),
