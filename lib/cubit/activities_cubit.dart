@@ -12,6 +12,9 @@ class ActivitiesCubit extends Cubit<ActivitiesState> {
   void fetchActivities() {
     Timer(const Duration(seconds: 2), () {
       repository?.fetchActivities().then((activitiesRaw) {
+        activitiesRaw.sort(
+          (a, b) => a.when.compareTo(b.when),
+        );
         emit(ActivitiesLoaded(acivities: activitiesRaw));
       });
     });
@@ -37,23 +40,5 @@ class ActivitiesCubit extends Cubit<ActivitiesState> {
       }
       emit(ActivitiesLoaded(acivities: activitiesList));
     }
-  }
-
-  void sort(List<Activities> activities) {
-    emit(ActivitiesLoaded(acivities: activitiesSort(activities)));
-  }
-
-  // void sortList() {
-  //   final currentState = state;
-  //   print(state);
-  //   if (currentState is ActivitiesLoaded) {
-  //     emit(ActivitiesLoaded(acivities: activitiesSort(currentState.acivities)));
-  //   }
-  // }
-
-  activitiesSort(List<Activities> activitiesRaw) {
-    return activitiesRaw.sort(
-      (a, b) => a.when.compareTo(b.when),
-    );
   }
 }

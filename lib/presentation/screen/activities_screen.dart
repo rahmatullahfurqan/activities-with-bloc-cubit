@@ -5,7 +5,6 @@ import 'package:mobile_activites/cubit/activities_cubit.dart';
 import 'package:mobile_activites/data/model/activities.dart';
 
 class ActivitiesScreen extends StatefulWidget {
-  String lastDate = "";
   @override
   State<ActivitiesScreen> createState() => _ActivitiesScreenState();
 }
@@ -13,7 +12,8 @@ class ActivitiesScreen extends StatefulWidget {
 class _ActivitiesScreenState extends State<ActivitiesScreen>
     with SingleTickerProviderStateMixin {
   late final _tabController = TabController(length: 2, vsync: this);
-
+  String lastDate = "";
+  bool showIt = false;
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<ActivitiesCubit>(context).fetchActivities();
@@ -61,13 +61,13 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
         if (state is! ActivitiesLoaded) {
           return const Center(child: CircularProgressIndicator());
         }
-        final activities = state.acivities;
         return SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children:
-                activities.map((e) => _activitiesTile(e, context)).toList(),
+            children: state.acivities
+                .map((e) => _activitiesTile(e, context))
+                .toList(),
           ),
         );
       },
@@ -75,6 +75,13 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
   }
 
   Widget _activitiesTile(Activities activities, context) {
+    String justDate = activities.when.substring(0, activities.when.length - 6);
+    if (lastDate != justDate) {
+      showIt = true;
+    } else {
+      showIt = false;
+    }
+    lastDate = justDate;
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, INFO_ACTIViTIES_ROUTE,
@@ -91,12 +98,18 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  activities.when.substring(0, activities.when.length - 6),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
+                showIt
+                    ? Column(
+                        children: [
+                          Text(
+                            justDate,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      )
+                    : Container(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,5 +141,12 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
             )),
       ),
     );
+  }
+
+  activitiesSort(List<Activities> activitiesRaw) {
+    activitiesRaw.sort(
+      (a, b) => a.when.toString().compareTo(b.when.toString()),
+    );
+    return activitiesRaw;
   }
 }
