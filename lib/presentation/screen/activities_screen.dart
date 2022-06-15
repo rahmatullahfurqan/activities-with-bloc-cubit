@@ -125,7 +125,7 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
                     Container(
                       padding: const EdgeInsets.all(10.0),
                       height: 50,
-                      width: MediaQuery.of(context).size.width * 0.8,
+                      width: MediaQuery.of(context).size.width * 0.75,
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(255, 114, 124, 173),
                         borderRadius: BorderRadius.circular(10.0),
@@ -142,12 +142,5 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
             )),
       ),
     );
-  }
-
-  activitiesSort(List<Activities> activitiesRaw) {
-    activitiesRaw.sort(
-      (a, b) => a.when.toString().compareTo(b.when.toString()),
-    );
-    return activitiesRaw;
   }
 }

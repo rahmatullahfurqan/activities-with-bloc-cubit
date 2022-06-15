@@ -4,6 +4,7 @@ import 'package:mobile_activites/data/network_service.dart';
 class Repository {
   final NetworkService networkService;
   Repository({required this.networkService});
+
   Future<List<Activities>> fetchActivities() async {
     final activitiesRaw = await networkService.fetchTodos();
     return activitiesRaw.map((e) => Activities.fromJson(e)).toList();

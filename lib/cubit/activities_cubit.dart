@@ -25,6 +25,9 @@ class ActivitiesCubit extends Cubit<ActivitiesState> {
     if (currentState is ActivitiesLoaded) {
       final activitiesList = currentState.acivities;
       activitiesList.add(activities);
+      activitiesList.sort(
+        (a, b) => a.when.compareTo(b.when),
+      );
       emit(ActivitiesLoaded(acivities: activitiesList));
     }
   }
@@ -38,6 +41,9 @@ class ActivitiesCubit extends Cubit<ActivitiesState> {
           activitiesList[i] = activities;
         }
       }
+      activitiesList.sort(
+        (a, b) => a.when.compareTo(b.when),
+      );
       emit(ActivitiesLoaded(acivities: activitiesList));
     }
   }

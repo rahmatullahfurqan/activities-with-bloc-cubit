@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 
 class NetworkService {
-  final baseUrl = "http://localhost:3000";
+  final baseUrl = "http://192.168.100.96:3000";
   Future<List<dynamic>> fetchTodos() async {
     try {
       final response = await get(Uri.parse(baseUrl + "/activities"));
